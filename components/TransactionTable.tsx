@@ -60,7 +60,7 @@ export const TransactionTable = ({ transactions, refetch }) => {
   return (
     <>
       <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <table className="">
+        <table className="w-full">
           <TableHeader
             fields={[
               "Date",
