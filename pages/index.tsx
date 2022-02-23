@@ -1,6 +1,7 @@
 import { SidebarNavigation } from "../components/SidebarNavigation";
 import { TransactionTable } from "../components/TransactionTable";
 import { useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet } from "../api/service/transactions";
+import { Tabs } from "../components/Tabs";
 
 export default function Home() {
   const query =
@@ -25,6 +26,9 @@ export default function Home() {
           <div className={"px-4 py-6"}>
             {/* Main content title */}
             <h1 className={" text-2xl font-semibold pb-4"}>Home</h1>
+            <div className={"pb-6"}>
+              <Tabs />
+            </div>
             {/* Content */}
             <div>
               <TransactionTable
