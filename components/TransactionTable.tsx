@@ -5,19 +5,15 @@ const TableHeader = ({ fields }) => {
   return (
     <thead className="bg-gray-50 border-b">
       <tr>
-        {fields.map((field_name) => (
+        {fields.map((field) => (
           <th
-            className="
-            px-6
-            py-3
-            text-left
-            text-xs
-            font-medium
-            text-gray-500
-            uppercase
-            tracking-wider"
+            key={field.name ?? field}
+            className={
+              "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" +
+              (field.align === "right" ? " text-right" : " text-left")
+            }
           >
-            {field_name}
+            {field.name ?? field}
           </th>
         ))}
       </tr>
@@ -65,7 +61,14 @@ export const TransactionTable = ({ transactions, refetch }) => {
     <>
       <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
         <table className="">
-          <TableHeader fields={["Date", "Payee", "Inflow", "Outflow"]} />
+          <TableHeader
+            fields={[
+              "Date",
+              "Payee",
+              { name: "Inflow", align: "right" },
+              { name: "Outflow", align: "right" },
+            ]}
+          />
           <TableBody transactions={transactions} />
         </table>
       </div>
