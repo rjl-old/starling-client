@@ -4,14 +4,26 @@ import {
   SwitchHorizontalIcon,
 } from "@heroicons/react/outline";
 
+import Link from "next/link";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const navigation = [
-  { name: "Home", href: "#", icon: HomeIcon, current: true },
-  { name: "Payments", href: "#", icon: SwitchHorizontalIcon, current: false },
-  { name: "Account Details", href: "#", icon: CogIcon, current: false },
+  { name: "Home", href: "/", icon: HomeIcon, current: true },
+  {
+    name: "Payments",
+    href: "/payments",
+    icon: SwitchHorizontalIcon,
+    current: false,
+  },
+  {
+    name: "Account Details",
+    href: "/account_details",
+    icon: CogIcon,
+    current: false,
+  },
 ];
 
 export const SidebarNavigation = () => {
@@ -25,26 +37,26 @@ export const SidebarNavigation = () => {
         {/* Navigation */}
         <nav className={"flex-1 mt-5 px-2"}>
           {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={classNames(
-                item.current
-                  ? "bg-orange-100 text-orange-900"
-                  : "text-orange-600 hover:bg-orange-50 hover:text-orange-900",
-                "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-              )}
-            >
-              <item.icon
+            <Link key={item.name} href={item.href}>
+              <a
                 className={classNames(
                   item.current
-                    ? "text-orange-500"
-                    : "text-orange-400 group-hover:text-orange-500",
-                  "mr-3 flex-shrink-0 h-6 w-6"
+                    ? "bg-purple-100 text-purple-900"
+                    : "text-purple-300 hover:bg-purple-50 hover:text-purple-900",
+                  "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                 )}
-              />
-              {item.name}
-            </a>
+              >
+                <item.icon
+                  className={classNames(
+                    item.current
+                      ? "text-purple-500"
+                      : "text-purple-400 group-hover:text-purple-500",
+                    "mr-3 flex-shrink-0 h-6 w-6"
+                  )}
+                />
+                {item.name}
+              </a>
+            </Link>
           ))}
         </nav>
       </div>
