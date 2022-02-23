@@ -1,14 +1,16 @@
 import { SidebarNavigation } from "../components/SidebarNavigation";
 import { TransactionTable } from "../components/TransactionTable";
-import { useGetSettledTransactionsForAccountAccountNameTransactionsGet } from "../api/service/transactions";
+import { useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet } from "../api/service/transactions";
 
 export default function Home() {
-  const query = useGetSettledTransactionsForAccountAccountNameTransactionsGet(
-    "personal",
-    {
-      query: { refetchInterval: 60 * 1000 },
-    }
-  );
+  const query =
+    useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet(
+      "personal",
+      31,
+      {
+        query: { refetchInterval: 60 * 1000 },
+      }
+    );
 
   return (
     <>
@@ -22,7 +24,7 @@ export default function Home() {
         <main className={"flex-1"}>
           <div className={"px-4 py-6"}>
             {/* Main content title */}
-            <h1 className={" text-2xl font-semibold"}>Home</h1>
+            <h1 className={" text-2xl font-semibold pb-4"}>Home</h1>
             {/* Content */}
             <div>
               <TransactionTable

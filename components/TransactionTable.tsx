@@ -3,10 +3,22 @@ import React from "react";
 
 const TableHeader = ({ fields }) => {
   return (
-    <thead>
+    <thead className="bg-gray-50 border-b">
       <tr>
         {fields.map((field_name) => (
-          <th>{field_name}</th>
+          <th
+            className="
+            px-6
+            py-3
+            text-left
+            text-xs
+            font-medium
+            text-gray-500
+            uppercase
+            tracking-wider"
+          >
+            {field_name}
+          </th>
         ))}
       </tr>
     </thead>
@@ -14,15 +26,31 @@ const TableHeader = ({ fields }) => {
 };
 
 const TableBody = ({ transactions }) => {
-  const rows = transactions?.map((transaction, index) => {
+  const rows = transactions?.map((transaction, transactionIdx) => {
     const date = formatDistance(new Date(transaction.time), new Date(), {
       addSuffix: true,
     });
     return (
-      <tr key={index}>
-        <td className="text-gray-500">{date}</td>
-        <td>{transaction.counterparty_name}</td>
-        <td>{parseFloat(transaction.amount).toPrecision(2)}</td>
+      <tr
+        key={transactionIdx}
+        className={transactionIdx % 2 === 0 ? "bg-white" : "bg-gray-50"}
+      >
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+          {date}
+        </td>
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+          {transaction.counterparty_name}
+        </td>
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
+          {parseFloat(transaction.amount) > 0
+            ? parseFloat(transaction.amount).toFixed(2)
+            : ""}
+        </td>
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
+          {parseFloat(transaction.amount) <= 0
+            ? parseFloat(transaction.amount).toFixed(2)
+            : ""}
+        </td>
       </tr>
     );
   });
@@ -34,12 +62,21 @@ const TableBody = ({ transactions }) => {
 // so we can destructure it and assign the transactions variable
 export const TransactionTable = ({ transactions, refetch }) => {
   return (
-    <div>
-      <table>
-        <TableHeader fields={["Date", "Payee", "Amount"]} />
-        <TableBody transactions={transactions} />
-      </table>
-      {refetch !== undefined ? <button onClick={refetch}>Update</button> : null}
-    </div>
+    <>
+      <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table className="">
+          <TableHeader fields={["Date", "Payee", "Inflow", "Outflow"]} />
+          <TableBody transactions={transactions} />
+        </table>
+      </div>
+      {refetch !== undefined ? (
+        <button
+          className="bg-purple-900 text-white p-2 mx-6 my-8 rounded-md"
+          onClick={refetch}
+        >
+          Update
+        </button>
+      ) : null}
+    </>
   );
 };
