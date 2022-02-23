@@ -1,7 +1,15 @@
 import { SidebarNavigation } from "../components/SidebarNavigation";
-import TransactionList from "../components/AccountList";
+import { TransactionTable } from "../components/TransactionTable";
+import { useGetSettledTransactionsForAccountAccountNameTransactionsGet } from "../api/service/transactions";
 
 export default function Home() {
+  const query = useGetSettledTransactionsForAccountAccountNameTransactionsGet(
+    "personal",
+    {
+      query: { refetchInterval: 60 * 1000 },
+    }
+  );
+
   return (
     <>
       {/* Static sidebar for desktop */}
@@ -17,7 +25,10 @@ export default function Home() {
             <h1 className={" text-2xl font-semibold"}>Home</h1>
             {/* Content */}
             <div>
-              <TransactionList />
+              <TransactionTable
+                transactions={query.data}
+                refetch={query.refetch}
+              />
             </div>
           </div>
         </main>
