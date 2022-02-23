@@ -7,7 +7,15 @@ import { useMemo } from 'react';
 // here you can add templates or providers etc
 function MyApp({Component: NextPage, pageProps}) {
   const client = useMemo(() => new QueryClient(), []);
-  return <QueryClientProvider client={client}><ReactQueryDevtools /><NextPage {...pageProps} /></QueryClientProvider>
+  const Layout = NextPage.Layout ?? Fragment;
+  return (
+    <QueryClientProvider client={client}>
+      <ReactQueryDevtools />
+      <Layout>
+        <NextPage {...pageProps} />
+      </Layout>
+    </QueryClientProvider>
+  );
 }
 
 export default MyApp
