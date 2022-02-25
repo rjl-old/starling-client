@@ -24,110 +24,42 @@ type AsyncReturnType<T extends (...args: any) => Promise<any>> = T extends (
 /**
  * @summary Get Settled Transactions For Account
  */
-export const useGetSettledTransactionsForAccountAccountNameTransactionsGetHook =
+export const useGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGetHook =
   () => {
-    const getSettledTransactionsForAccountAccountNameTransactionsGet =
+    const getSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGet =
       useAxios<Transaction[]>();
 
-    return (name: string) => {
-      return getSettledTransactionsForAccountAccountNameTransactionsGet({
-        url: `/account/${name}/transactions`,
-        method: "get",
-      });
-    };
-  };
-
-export const getGetSettledTransactionsForAccountAccountNameTransactionsGetQueryKey =
-  (name: string) => [`/account/${name}/transactions`];
-
-export const useGetSettledTransactionsForAccountAccountNameTransactionsGet = <
-  TData = AsyncReturnType<
-    ReturnType<
-      typeof useGetSettledTransactionsForAccountAccountNameTransactionsGetHook
-    >
-  >,
-  TError = HTTPValidationError
->(
-  name: string,
-  options?: {
-    query?: UseQueryOptions<
-      AsyncReturnType<
-        ReturnType<
-          typeof useGetSettledTransactionsForAccountAccountNameTransactionsGetHook
-        >
-      >,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options || {};
-
-  const queryKey =
-    queryOptions?.queryKey ??
-    getGetSettledTransactionsForAccountAccountNameTransactionsGetQueryKey(name);
-
-  const getSettledTransactionsForAccountAccountNameTransactionsGet =
-    useGetSettledTransactionsForAccountAccountNameTransactionsGetHook();
-
-  const queryFn: QueryFunction<
-    AsyncReturnType<
-      ReturnType<
-        typeof useGetSettledTransactionsForAccountAccountNameTransactionsGetHook
-      >
-    >
-  > = () => getSettledTransactionsForAccountAccountNameTransactionsGet(name);
-
-  const query = useQuery<
-    AsyncReturnType<
-      ReturnType<
-        typeof useGetSettledTransactionsForAccountAccountNameTransactionsGetHook
-      >
-    >,
-    TError,
-    TData
-  >(queryKey, queryFn, { enabled: !!name, ...queryOptions });
-
-  return {
-    queryKey,
-    ...query,
-  };
-};
-
-/**
- * @summary Get Settled Transactions For Account Days
- */
-export const useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGetHook =
-  () => {
-    const getSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet =
-      useAxios<Transaction[]>();
-
-    return (name: string, days: number) => {
-      return getSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet(
-        { url: `/account/${name}/transactions/${days}`, method: "get" }
+    return (typeName: string, accountName: string) => {
+      return getSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGet(
+        {
+          url: `/account/${typeName}/${accountName}/transactions`,
+          method: "get",
+        }
       );
     };
   };
 
-export const getGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGetQueryKey =
-  (name: string, days: number) => [`/account/${name}/transactions/${days}`];
+export const getGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGetQueryKey =
+  (typeName: string, accountName: string) => [
+    `/account/${typeName}/${accountName}/transactions`,
+  ];
 
-export const useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet =
+export const useGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGet =
   <
     TData = AsyncReturnType<
       ReturnType<
-        typeof useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGetHook
+        typeof useGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGetHook
       >
     >,
     TError = HTTPValidationError
   >(
-    name: string,
-    days: number,
+    typeName: string,
+    accountName: string,
     options?: {
       query?: UseQueryOptions<
         AsyncReturnType<
           ReturnType<
-            typeof useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGetHook
+            typeof useGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGetHook
           >
         >,
         TError,
@@ -139,35 +71,130 @@ export const useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysG
 
     const queryKey =
       queryOptions?.queryKey ??
-      getGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGetQueryKey(
-        name,
-        days
+      getGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGetQueryKey(
+        typeName,
+        accountName
       );
 
-    const getSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet =
-      useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGetHook();
+    const getSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGet =
+      useGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGetHook();
 
     const queryFn: QueryFunction<
       AsyncReturnType<
         ReturnType<
-          typeof useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGetHook
+          typeof useGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGetHook
         >
       >
     > = () =>
-      getSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet(
-        name,
+      getSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGet(
+        typeName,
+        accountName
+      );
+
+    const query = useQuery<
+      AsyncReturnType<
+        ReturnType<
+          typeof useGetSettledTransactionsForAccountAccountTypeNameAccountNameTransactionsGetHook
+        >
+      >,
+      TError,
+      TData
+    >(queryKey, queryFn, {
+      enabled: !!(typeName && accountName),
+      ...queryOptions,
+    });
+
+    return {
+      queryKey,
+      ...query,
+    };
+  };
+
+/**
+ * @summary Get Settled Transactions For Account Days
+ */
+export const useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGetHook =
+  () => {
+    const getSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet =
+      useAxios<Transaction[]>();
+
+    return (typeName: string, accountName: string, days: number) => {
+      return getSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet(
+        {
+          url: `/account/${typeName}/${accountName}/transactions/${days}`,
+          method: "get",
+        }
+      );
+    };
+  };
+
+export const getGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGetQueryKey =
+  (typeName: string, accountName: string, days: number) => [
+    `/account/${typeName}/${accountName}/transactions/${days}`,
+  ];
+
+export const useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet =
+  <
+    TData = AsyncReturnType<
+      ReturnType<
+        typeof useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGetHook
+      >
+    >,
+    TError = HTTPValidationError
+  >(
+    typeName: string,
+    accountName: string,
+    days: number,
+    options?: {
+      query?: UseQueryOptions<
+        AsyncReturnType<
+          ReturnType<
+            typeof useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGetHook
+          >
+        >,
+        TError,
+        TData
+      >;
+    }
+  ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const { query: queryOptions } = options || {};
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGetQueryKey(
+        typeName,
+        accountName,
+        days
+      );
+
+    const getSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet =
+      useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGetHook();
+
+    const queryFn: QueryFunction<
+      AsyncReturnType<
+        ReturnType<
+          typeof useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGetHook
+        >
+      >
+    > = () =>
+      getSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet(
+        typeName,
+        accountName,
         days
       );
 
     const query = useQuery<
       AsyncReturnType<
         ReturnType<
-          typeof useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGetHook
+          typeof useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGetHook
         >
       >,
       TError,
       TData
-    >(queryKey, queryFn, { enabled: !!(name && days), ...queryOptions });
+    >(queryKey, queryFn, {
+      enabled: !!(typeName && accountName && days),
+      ...queryOptions,
+    });
 
     return {
       queryKey,

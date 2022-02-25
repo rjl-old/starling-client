@@ -9,7 +9,6 @@
  * Represents an Account.
  */
 export interface Account {
-  token: string;
   uuid: string;
   type: string;
   default_category: string;

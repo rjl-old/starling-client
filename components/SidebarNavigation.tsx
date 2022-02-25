@@ -24,6 +24,12 @@ const navigation = [
     icon: CogIcon,
     current: false,
   },
+  {
+    name: "Settings",
+    href: "/settings",
+    icon: CogIcon,
+    current: false,
+  },
 ];
 
 export const SidebarNavigation = () => {

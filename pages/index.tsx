@@ -1,12 +1,12 @@
-import { SidebarNavigation } from "../components/SidebarNavigation";
 import { TransactionTable } from "../components/TransactionTable";
-import { useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet } from "../api/service/transactions";
+import { useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet } from "../api/service/transactions";
 import { Tabs } from "../components/Tabs";
 import { Layout } from "../components/Layout";
 
 export default function Home() {
   const query =
-    useGetSettledTransactionsForAccountDaysAccountNameTransactionsDaysGet(
+    useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet(
+      "personal",
       "personal",
       31,
       {
