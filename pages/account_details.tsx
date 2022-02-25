@@ -11,7 +11,7 @@ export default function AccountDetails() {
 
       {/* Content */}
       <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">
-        Accounts:
+        Accounts :
       </h2>
       <ul
         role="list"
