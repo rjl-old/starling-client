@@ -4,7 +4,7 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import type { StarlingAccounts } from "./starlingAccounts";
+import type { StarlingAccount } from "./starlingAccount";
 
 /**
  * Models the Starling account for the given access token.
@@ -12,5 +12,5 @@ import type { StarlingAccounts } from "./starlingAccounts";
 export interface MainAccount {
   type_name: string;
   token?: string;
-  accounts: StarlingAccounts;
+  accounts: StarlingAccount[];
 }
