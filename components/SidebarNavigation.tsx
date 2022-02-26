@@ -5,34 +5,37 @@ import {
 } from "@heroicons/react/outline";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const navigation = [
-  { name: "Home", href: "/", icon: HomeIcon, current: true },
-  {
-    name: "Payments",
-    href: "/payments",
-    icon: SwitchHorizontalIcon,
-    current: false,
-  },
-  {
-    name: "Account Details",
-    href: "/account_details",
-    icon: CogIcon,
-    current: false,
-  },
-  {
-    name: "Settings",
-    href: "/settings",
-    icon: CogIcon,
-    current: false,
-  },
-];
-
 export const SidebarNavigation = () => {
+  const router = useRouter();
+
+  const navigation = [
+    { name: "Home", href: "/", icon: HomeIcon, current: router.asPath === "/" },
+    {
+      name: "Payments",
+      href: "/payments",
+      icon: SwitchHorizontalIcon,
+      current: router.asPath === "/payments",
+    },
+    {
+      name: "Account Details",
+      href: "/account_details",
+      icon: CogIcon,
+      current: router.asPath === "/account_details",
+    },
+    {
+      name: "Settings",
+      href: "/settings",
+      icon: CogIcon,
+      current: router.asPath === "/settings",
+    },
+  ];
+
   return (
     <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-purple-900 text-white">
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
