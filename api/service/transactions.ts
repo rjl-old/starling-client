@@ -11,7 +11,11 @@ import {
   UseQueryResult,
   QueryKey,
 } from "react-query";
-import type { Transaction, HTTPValidationError } from "./models";
+import type {
+  Transaction,
+  HTTPValidationError,
+  GetTransactionsTransactionsGetParams,
+} from "./models";
 import { useAxios } from "../useAxios";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,6 +24,66 @@ type AsyncReturnType<T extends (...args: any) => Promise<any>> = T extends (
 ) => Promise<infer R>
   ? R
   : any;
+
+/**
+ * Get transactions from all available accounts, sorted by transaction date.
+    
+ * @summary Get Transactions
+ */
+export const useGetTransactionsTransactionsGetHook = () => {
+  const getTransactionsTransactionsGet = useAxios<Transaction[]>();
+
+  return (params?: GetTransactionsTransactionsGetParams) => {
+    return getTransactionsTransactionsGet({
+      url: `/transactions`,
+      method: "get",
+      params,
+    });
+  };
+};
+
+export const getGetTransactionsTransactionsGetQueryKey = (
+  params?: GetTransactionsTransactionsGetParams
+) => [`/transactions`, ...(params ? [params] : [])];
+
+export const useGetTransactionsTransactionsGet = <
+  TData = AsyncReturnType<
+    ReturnType<typeof useGetTransactionsTransactionsGetHook>
+  >,
+  TError = HTTPValidationError
+>(
+  params?: GetTransactionsTransactionsGetParams,
+  options?: {
+    query?: UseQueryOptions<
+      AsyncReturnType<ReturnType<typeof useGetTransactionsTransactionsGetHook>>,
+      TError,
+      TData
+    >;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options || {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetTransactionsTransactionsGetQueryKey(params);
+
+  const getTransactionsTransactionsGet =
+    useGetTransactionsTransactionsGetHook();
+
+  const queryFn: QueryFunction<
+    AsyncReturnType<ReturnType<typeof useGetTransactionsTransactionsGetHook>>
+  > = () => getTransactionsTransactionsGet(params);
+
+  const query = useQuery<
+    AsyncReturnType<ReturnType<typeof useGetTransactionsTransactionsGetHook>>,
+    TError,
+    TData
+  >(queryKey, queryFn, queryOptions);
+
+  return {
+    queryKey,
+    ...query,
+  };
+};
 
 /**
  * @summary Get Settled Transactions For Account

@@ -11,7 +11,7 @@ import {
   UseQueryResult,
   QueryKey,
 } from "react-query";
-import type { StarlingConfig, Account, HTTPValidationError } from "./models";
+import type { StarlingConfig, HTTPValidationError } from "./models";
 import { useAxios } from "../useAxios";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,70 +60,6 @@ export const useGetAccountsAccountsGet = <
     TError,
     TData
   >(queryKey, queryFn, queryOptions);
-
-  return {
-    queryKey,
-    ...query,
-  };
-};
-
-/**
- * @summary Get Accounts For Type
- */
-export const useGetAccountsForTypeAccountsTypeNameGetHook = () => {
-  const getAccountsForTypeAccountsTypeNameGet = useAxios<Account[]>();
-
-  return (typeName: string) => {
-    return getAccountsForTypeAccountsTypeNameGet({
-      url: `/accounts/${typeName}`,
-      method: "get",
-    });
-  };
-};
-
-export const getGetAccountsForTypeAccountsTypeNameGetQueryKey = (
-  typeName: string
-) => [`/accounts/${typeName}`];
-
-export const useGetAccountsForTypeAccountsTypeNameGet = <
-  TData = AsyncReturnType<
-    ReturnType<typeof useGetAccountsForTypeAccountsTypeNameGetHook>
-  >,
-  TError = HTTPValidationError
->(
-  typeName: string,
-  options?: {
-    query?: UseQueryOptions<
-      AsyncReturnType<
-        ReturnType<typeof useGetAccountsForTypeAccountsTypeNameGetHook>
-      >,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options || {};
-
-  const queryKey =
-    queryOptions?.queryKey ??
-    getGetAccountsForTypeAccountsTypeNameGetQueryKey(typeName);
-
-  const getAccountsForTypeAccountsTypeNameGet =
-    useGetAccountsForTypeAccountsTypeNameGetHook();
-
-  const queryFn: QueryFunction<
-    AsyncReturnType<
-      ReturnType<typeof useGetAccountsForTypeAccountsTypeNameGetHook>
-    >
-  > = () => getAccountsForTypeAccountsTypeNameGet(typeName);
-
-  const query = useQuery<
-    AsyncReturnType<
-      ReturnType<typeof useGetAccountsForTypeAccountsTypeNameGetHook>
-    >,
-    TError,
-    TData
-  >(queryKey, queryFn, { enabled: !!typeName, ...queryOptions });
 
   return {
     queryKey,

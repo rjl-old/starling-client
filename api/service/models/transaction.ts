@@ -15,4 +15,6 @@ export interface Transaction {
   amount: number;
   reference?: string;
   status: string;
+  category_uid?: string;
+  account_uid?: string;
 }
