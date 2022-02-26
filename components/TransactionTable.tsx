@@ -37,12 +37,12 @@ const TableBody = ({ transactions }) => {
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
           {transaction.counterparty_name}
         </td>
-        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-green-500 text-right">
           {parseFloat(transaction.amount) > 0
             ? parseFloat(transaction.amount).toFixed(2)
             : ""}
         </td>
-        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-red-500 text-right">
           {parseFloat(transaction.amount) <= 0
             ? parseFloat(transaction.amount).toFixed(2)
             : ""}
