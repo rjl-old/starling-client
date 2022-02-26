@@ -1,5 +1,6 @@
 import { formatDistance } from "date-fns";
 import React from "react";
+import { useGetAccountsAccountsGet } from "../api/service/accounts";
 
 const TableHeader = ({ fields }) => {
   return (
@@ -21,7 +22,7 @@ const TableHeader = ({ fields }) => {
   );
 };
 
-const TableBody = ({ transactions }) => {
+const TableBody = ({ transactions, accountDictionary }) => {
   const rows = transactions?.map((transaction, transactionIdx) => {
     const date = formatDistance(new Date(transaction.time), new Date(), {
       addSuffix: true,
@@ -35,7 +36,16 @@ const TableBody = ({ transactions }) => {
           {date}
         </td>
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+          {accountDictionary[transaction.account_uid]}
+        </td>
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
           {transaction.counterparty_name}
+        </td>
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+          {transaction.category_uid}
+        </td>
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+          {transaction.status}
         </td>
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-green-500 text-right">
           {parseFloat(transaction.amount) > 0
@@ -56,7 +66,12 @@ const TableBody = ({ transactions }) => {
 
 // props is an object that contains the transactions array
 // so we can destructure it and assign the transactions variable
-export const TransactionTable = ({ transactions, refetch }) => {
+export const TransactionTable = ({
+  transactions,
+  refetch,
+  accountDictionary,
+}) => {
+  const response = useGetAccountsAccountsGet();
   return (
     <>
       <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -64,12 +79,18 @@ export const TransactionTable = ({ transactions, refetch }) => {
           <TableHeader
             fields={[
               "Date",
+              "Account",
               "Payee",
+              "Budget Category",
+              "Status",
               { name: "Inflow", align: "right" },
               { name: "Outflow", align: "right" },
             ]}
           />
-          <TableBody transactions={transactions} />
+          <TableBody
+            transactions={transactions}
+            accountDictionary={accountDictionary}
+          />
         </table>
       </div>
       {refetch !== undefined ? (

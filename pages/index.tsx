@@ -1,18 +1,39 @@
 import { TransactionTable } from "../components/TransactionTable";
-import { useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet } from "../api/service/transactions";
+import { useGetTransactionsTransactionsGet } from "../api/service/transactions";
 import { Tabs } from "../components/Tabs";
 import { Layout } from "../components/Layout";
+import { format, subDays } from "date-fns";
+import { useGetAccountsAccountsGet } from "../api/service/accounts";
+
+function MakeAccountDictionary() {
+  const response = useGetAccountsAccountsGet();
+  const mainAccounts = response.data?.main_accounts;
+  let accountDictionary = {};
+  for (const mainAccount of mainAccounts) {
+    for (const account of mainAccount.accounts) {
+      accountDictionary[account.accountUid] = account.name;
+    }
+  }
+  return accountDictionary;
+}
 
 export default function Home() {
-  const query =
-    useGetSettledTransactionsForAccountDaysAccountTypeNameAccountNameTransactionsDaysGet(
-      "personal",
-      "personal",
-      31,
-      {
-        query: { refetchInterval: 60 * 1000 },
-      }
-    );
+  const end_date = new Date();
+  const start_date = subDays(end_date, 28);
+  const start_date_string = format(start_date, "yyyy-MM-dd'T'HH:mm:ss'Z'");
+  const end_date_string = format(end_date, "yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+  const transactions = useGetTransactionsTransactionsGet(
+    {
+      start_date: start_date_string,
+      end_date: end_date_string,
+    },
+    {
+      query: { refetchInterval: 60 * 1000 },
+    }
+  );
+
+  const accountDictionary = MakeAccountDictionary();
 
   return (
     <>
@@ -23,7 +44,11 @@ export default function Home() {
       </div>
       {/* Content */}
       <div>
-        <TransactionTable transactions={query.data} refetch={query.refetch} />
+        <TransactionTable
+          transactions={transactions.data}
+          refetch={transactions.refetch}
+          accountDictionary={accountDictionary}
+        />
       </div>
     </>
   );
