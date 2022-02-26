@@ -55,7 +55,6 @@ const AccountCardLarge: FC<AccountCardProps> = ({ mainAccount, account }) => {
 export default function AccountDetails() {
   const response = useGetAccountsAccountsGet();
   const mainAccounts = response.data?.main_accounts;
-  console.log(mainAccounts);
   return (
     <>
       {/* Main content title */}
@@ -69,10 +68,17 @@ export default function AccountDetails() {
         role="list"
         className="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {mainAccounts?.map(function (mainAccount) {
+        {mainAccounts?.flatMap(mainAccount => mainAccount.accounts.map(account => (
+          <AccountCardLarge
+            mainAccount={mainAccount}
+            account={account}
+          />
+        )))}
+        {/* {mainAccounts?.map(function (mainAccount) {
           return (
             <>
               {mainAccount.accounts.map(function (account) {
+             
                 return (
                   <>
                     <AccountCardLarge
@@ -84,7 +90,7 @@ export default function AccountDetails() {
               })}
             </>
           );
-        })}
+        })} */}
       </ul>
     </>
   );
