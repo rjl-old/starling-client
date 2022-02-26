@@ -2,7 +2,7 @@ import '../styles/globals.css'
 
 import {QueryClient, QueryClientProvider} from "react-query";
 import {ReactQueryDevtools} from "react-query/devtools";
-import { useMemo } from 'react';
+import { useMemo, Fragment } from 'react';
 
 // here you can add templates or providers etc
 function MyApp({Component: NextPage, pageProps}) {
