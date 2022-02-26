@@ -2,9 +2,8 @@ import { FC } from "react";
 
 import { Layout } from "../components/Layout";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
-import Date from "../components/date";
-import { StarlingAccount, MainAccount } from "../api/service/models";
-
+import AccountDate from "../components/accountDate";
+import { MainAccount, StarlingAccount } from "../api/service/models";
 
 const colours = {
   personal: "bg-pink-600",
@@ -18,7 +17,7 @@ function classNames(...classes) {
 type AccountCardProps = {
   account: StarlingAccount;
   mainAccount: MainAccount;
-}
+};
 
 const AccountCardLarge: FC<AccountCardProps> = ({ mainAccount, account }) => {
   return (
@@ -43,7 +42,7 @@ const AccountCardLarge: FC<AccountCardProps> = ({ mainAccount, account }) => {
               {account.name}
             </a>
             <p className="text-gray-500">
-              <Date dateString={account.createdAt} />
+              <AccountDate dateString={account.createdAt} />
             </p>
           </div>
         </div>
@@ -55,6 +54,7 @@ const AccountCardLarge: FC<AccountCardProps> = ({ mainAccount, account }) => {
 export default function AccountDetails() {
   const response = useGetAccountsAccountsGet();
   const mainAccounts = response.data?.main_accounts;
+
   return (
     <>
       {/* Main content title */}
@@ -68,12 +68,15 @@ export default function AccountDetails() {
         role="list"
         className="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {mainAccounts?.flatMap(mainAccount => mainAccount.accounts.map(account => (
-          <AccountCardLarge
-            mainAccount={mainAccount}
-            account={account}
-          />
-        )))}
+        {mainAccounts?.flatMap((mainAccount) =>
+          mainAccount.accounts.map((account) => (
+            <AccountCardLarge
+              mainAccount={mainAccount}
+              account={account}
+              key={mainAccount.type_name}
+            />
+          ))
+        )}
         {/* {mainAccounts?.map(function (mainAccount) {
           return (
             <>
