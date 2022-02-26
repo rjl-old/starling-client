@@ -1,6 +1,10 @@
+import { FC } from "react";
+
 import { Layout } from "../components/Layout";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
 import Date from "../components/date";
+import { StarlingAccount, MainAccount } from "../api/service/models";
+
 
 const colours = {
   personal: "bg-pink-600",
@@ -11,7 +15,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const AccountCardLarge = ({ mainAccount, account }) => {
+type AccountCardProps = {
+  account: StarlingAccount;
+  mainAccount: MainAccount;
+}
+
+const AccountCardLarge: FC<AccountCardProps> = ({ mainAccount, account }) => {
   return (
     <>
       <li
