@@ -1,7 +1,7 @@
 import { formatDistance } from "date-fns";
 import React from "react";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
-import classNames from "../utils/classNames";
+import { Pill } from "./Pill";
 
 const TableHeader = ({ fields }) => {
   return (
@@ -36,8 +36,11 @@ const TableBody = ({ transactions, accountDictionary }) => {
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
           {date}
         </td>
-        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
-          {accountDictionary[transaction.account_uid]}
+        <td className="px-6 py-1 whitespace-nowrap">
+          <Pill
+            pillText={accountDictionary[transaction.account_uid]}
+            pillColour="bg-green-100 text-green-800"
+          />
         </td>
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
           {transaction.counterparty_name}
