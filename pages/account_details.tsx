@@ -2,9 +2,9 @@ import { FC } from "react";
 
 import { Layout } from "../components/Layout";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
-import AccountDate from "../utils/accountDate";
+import AccountDate from "../utils/AccountDate";
 import { MainAccount, StarlingAccount } from "../api/service/models";
-import classNames from "../utils/classNames";
+import classNames from "../utils/ClassNames";
 
 const colours = {
   personal: "bg-pink-600",

@@ -7,7 +7,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import classNames from "../utils/classNames";
+import classNames from "../utils/ClassNames";
 
 export const SidebarNavigation = () => {
   const router = useRouter();
