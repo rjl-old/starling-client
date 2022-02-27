@@ -7,9 +7,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import classNames from "../utils/classNames";
 
 export const SidebarNavigation = () => {
   const router = useRouter();
