@@ -9,9 +9,11 @@ function MakeAccountDictionary() {
   const response = useGetAccountsAccountsGet();
   const mainAccounts = response.data?.main_accounts;
   let accountDictionary = {};
-  for (const mainAccount of mainAccounts) {
-    for (const account of mainAccount.accounts) {
-      accountDictionary[account.accountUid] = account.name;
+  if (mainAccounts) {
+    for (const mainAccount of mainAccounts) {
+      for (const account of mainAccount.accounts) {
+        accountDictionary[account.accountUid] = account.name;
+      }
     }
   }
   return accountDictionary;
