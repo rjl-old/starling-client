@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { Layout } from "../components/Layout";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
-import AccountDate from "../components/accountDate";
+import AccountDate from "../utils/accountDate";
 import { MainAccount, StarlingAccount } from "../api/service/models";
 import classNames from "../utils/classNames";
 
