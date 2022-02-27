@@ -74,23 +74,6 @@ export default function AccountDetails() {
             />
           ))
         )}
-        {/* {mainAccounts?.map(function (mainAccount) {
-          return (
-            <>
-              {mainAccount.accounts.map(function (account) {
-             
-                return (
-                  <>
-                    <AccountCardLarge
-                      mainAccount={mainAccount}
-                      account={account}
-                    />
-                  </>
-                );
-              })}
-            </>
-          );
-        })} */}
       </ul>
     </>
   );
