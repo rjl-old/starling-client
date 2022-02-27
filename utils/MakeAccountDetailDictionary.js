@@ -15,7 +15,7 @@ export default function MakeAccountDetailDictionary() {
           created: account.createdAt,
           colours: {
             bgColour: "bg-" + colours[idx] + "-500",
-            pillColour:
+            pillColour: colours[idx],
               "bg-" + colours[idx] + "-100 text-" + colours[idx] + "-800",
           },
         };
