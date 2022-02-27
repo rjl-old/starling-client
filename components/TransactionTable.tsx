@@ -1,6 +1,7 @@
 import { formatDistance } from "date-fns";
 import React from "react";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
+import classNames from "../utils/classNames";
 
 const TableHeader = ({ fields }) => {
   return (

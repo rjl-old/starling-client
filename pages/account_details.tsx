@@ -4,15 +4,12 @@ import { Layout } from "../components/Layout";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
 import AccountDate from "../components/accountDate";
 import { MainAccount, StarlingAccount } from "../api/service/models";
+import classNames from "../utils/classNames";
 
 const colours = {
   personal: "bg-pink-600",
   business: "bg-green-500",
 };
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 type AccountCardProps = {
   account: StarlingAccount;
