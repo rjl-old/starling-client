@@ -31,7 +31,7 @@ export default function Home() {
       end_date: end_date_string,
     },
     {
-      query: { refetchInterval: 60 * 1000 },
+      query: { refetchInterval: 5 * 60 * 1000 },
     }
   );
 
