@@ -4,9 +4,10 @@ import { Tabs } from "../components/Tabs";
 import { Layout } from "../components/Layout";
 import { format, subDays } from "date-fns";
 import MakeAccountDetailDictionary from "../utils/MakeAccountDetailDictionary";
+import { AccountCards } from "../components/AccountCards";
 
 export default function Home() {
-  const accountDictionary = MakeAccountDetailDictionary();
+  const accountDetails = MakeAccountDetailDictionary();
 
   const end_date = new Date();
   const start_date = subDays(end_date, 28);
@@ -27,15 +28,17 @@ export default function Home() {
     <>
       {/* Main content title */}
       <h1 className={" text-2xl font-semibold pb-4"}>Home</h1>
+
+      {/* Content */}
+      <AccountCards accountDetails={accountDetails} balance={0.0} />
       <div className={"pb-6"}>
         <Tabs />
       </div>
-      {/* Content */}
       <div>
         <TransactionTable
           transactions={transactions.data}
           refetch={transactions.refetch}
-          accountDictionary={accountDictionary}
+          accountDictionary={accountDetails}
         />
       </div>
     </>
