@@ -28,6 +28,7 @@ const TableBody = ({ transactions, accountDictionary }) => {
     const date = formatDistance(new Date(transaction.time), new Date(), {
       addSuffix: true,
     });
+    const accountDetails = accountDictionary[transaction.account_uid];
     return (
       <tr
         key={transactionIdx}
@@ -38,8 +39,8 @@ const TableBody = ({ transactions, accountDictionary }) => {
         </td>
         <td className="px-6 py-1 whitespace-nowrap">
           <Pill
-            pillText={accountDictionary[transaction.account_uid]}
-            pillColour="bg-green-100 text-green-800"
+            pillText={accountDetails.name}
+            pillColour={accountDetails.colours.pillColour}
           />
         </td>
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
