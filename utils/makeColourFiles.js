@@ -1,5 +1,5 @@
 const fs = require("fs");
-const colours = ["red", "green", "blue"];
+const colours = ["indigo", "orange", "blue"];
 let colourList = [];
 
 colours.map((colour) => {
@@ -9,7 +9,11 @@ colours.map((colour) => {
   colourData["badgeBgColour"] = `bg-${colour}-100`;
   colourList.push(colourData);
 });
-fs.writeFile("colours.json", JSON.stringify(colourList), (err) => {
-  if (err) throw err;
-});
+fs.writeFile(
+  __dirname + "/../components/colours.json",
+  JSON.stringify(colourList, null, 2),
+  (err) => {
+    if (err) throw err;
+  }
+);
 console.log(colourList);
