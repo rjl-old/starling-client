@@ -1,6 +1,13 @@
+import { FC } from "react";
 import classNames from "../utils/ClassNames";
 
-export const Badge = ({ text, textColour, bgColour }) => {
+type BadgeProps = {
+  text?: string;
+  textColour?: string;
+  bgColour?: string;
+};
+
+export const Badge: FC<BadgeProps> = ({ text = "Unknown", textColour = "", bgColour = "" }) => {
   const pillClassName = `${textColour} ${bgColour}`;
   return (
     <div

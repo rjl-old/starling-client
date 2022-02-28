@@ -1,6 +1,8 @@
+import { FC } from "react";
 import classNames from "../utils/ClassNames";
+import { AccountListItem } from "../utils/MakeAccountList";
 
-const AccountCard = ({ account }) => {
+const AccountCard: FC<{ account: AccountListItem }> = ({ account }) => {
   return (
     <>
       <li key={account.uid} className="col-span-1 flex shadow-sm rounded-md">
@@ -16,12 +18,8 @@ const AccountCard = ({ account }) => {
         {/* body */}
         <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
           <div className="flex-1 px-4 py-2 text-sm truncate">
-            <a className="text-gray-900 font-medium hover:text-gray-600">
-              {account.name}
-            </a>
-            <p className="text-gray-500 font-bold text-xl">
-              £{account.balance}
-            </p>
+            <a className="text-gray-900 font-medium hover:text-gray-600">{account.name}</a>
+            <p className="text-gray-500 font-bold text-xl">£{account.balance}</p>
           </div>
         </div>
       </li>
@@ -29,19 +27,17 @@ const AccountCard = ({ account }) => {
   );
 };
 
-export const AccountCards = ({ accountList }) => {
+export const AccountCards: FC<{ accountList?: AccountListItem[] }> = ({ accountList }) => {
   return (
     <>
       {" "}
       {/* Content */}
-      <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">
-        Accounts :
-      </h2>
+      <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">Accounts :</h2>
       <ul
         role="list"
         className="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {accountList.map((account) => (
+        {accountList?.map((account) => (
           <AccountCard key={account.uid} account={account} />
         ))}
       </ul>

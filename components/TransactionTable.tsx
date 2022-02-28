@@ -1,15 +1,14 @@
 import { formatDistance } from "date-fns";
-import React from "react";
+import React, { FC } from "react";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
+import { Transaction } from "../api/service/models";
+import { AccountListItem } from "../utils/MakeAccountList";
 import { Badge } from "./Badge";
 
-function accountForAccountUID(accounts, accountUid) {
-  for (const account of accounts) {
-    if (account.uid === accountUid) {
-      return account;
-    }
-  }
-}
+const accountForAccountUID = (
+  accountList: AccountListItem[] | undefined,
+  accountUid: string
+): AccountListItem => accountList?.find((a) => a.uid === accountUid);
 
 const TableHeader = ({ fields }) => {
   return (
@@ -31,23 +30,23 @@ const TableHeader = ({ fields }) => {
   );
 };
 
-const TableBody = ({ transactions, accountList }) => {
+type TableBodyProps = {
+  transactions: Transaction[];
+  accountList?: AccountListItem[];
+};
+
+const TableBody: FC<TableBodyProps> = ({ transactions, accountList }) => {
   const rows = transactions?.map((transaction, transactionIdx) => {
     const date = formatDistance(new Date(transaction.time), new Date(), {
       addSuffix: true,
     });
     const account = accountForAccountUID(accountList, transaction.account_uid);
     return (
-      <tr
-        key={transactionIdx}
-        className={transactionIdx % 2 === 0 ? "bg-white" : "bg-gray-50"}
-      >
-        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
-          {date}
-        </td>
+      <tr key={transactionIdx} className={transactionIdx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">{date}</td>
         <td className="px-6 py-1 whitespace-nowrap">
           <Badge
-            text={account.name}
+            text={account.name ?? "Unknown"}
             textColour={account.colours.badgeTextColour}
             bgColour={account.colours.badgeBgColour}
           />
@@ -62,14 +61,10 @@ const TableBody = ({ transactions, accountList }) => {
           {transaction.status}
         </td>
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-green-500 text-right">
-          {parseFloat(transaction.amount) > 0
-            ? parseFloat(transaction.amount).toFixed(2)
-            : ""}
+          {parseFloat(transaction.amount) > 0 ? parseFloat(transaction.amount).toFixed(2) : ""}
         </td>
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-red-500 text-right">
-          {parseFloat(transaction.amount) <= 0
-            ? parseFloat(transaction.amount).toFixed(2)
-            : ""}
+          {parseFloat(transaction.amount) <= 0 ? parseFloat(transaction.amount).toFixed(2) : ""}
         </td>
       </tr>
     );
@@ -78,10 +73,19 @@ const TableBody = ({ transactions, accountList }) => {
   return <tbody>{rows}</tbody>;
 };
 
+type TransactionTableProps = {
+  transactions: Transaction[];
+  refetch: () => void;
+  accountList?: AccountListItem[];
+};
+
 // props is an object that contains the transactions array
 // so we can destructure it and assign the transactions variable
-export const TransactionTable = ({ transactions, refetch, accountList }) => {
-  const response = useGetAccountsAccountsGet();
+export const TransactionTable: FC<TransactionTableProps> = ({
+  transactions,
+  refetch,
+  accountList,
+}) => {
   return (
     <>
       <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -101,10 +105,7 @@ export const TransactionTable = ({ transactions, refetch, accountList }) => {
         </table>
       </div>
       {refetch !== undefined ? (
-        <button
-          className="bg-purple-900 text-white p-2 mx-6 my-8 rounded-md"
-          onClick={refetch}
-        >
+        <button className="bg-purple-900 text-white p-2 mx-6 my-8 rounded-md" onClick={refetch}>
           Update
         </button>
       ) : null}
