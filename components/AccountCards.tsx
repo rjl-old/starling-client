@@ -1,17 +1,13 @@
 import classNames from "../utils/ClassNames";
-import AccountDate from "../utils/AccountDate";
 
-const AccountCard = (account, accountBalance) => {
+const AccountCard = ({ account }) => {
   return (
     <>
-      <li
-        key={account.accountUid}
-        className="col-span-1 flex shadow-sm rounded-md"
-      >
+      <li key={account.uid} className="col-span-1 flex shadow-sm rounded-md">
         {/* colour chip */}
         <div
           className={classNames(
-            colours[mainAccount.type_name],
+            account.colours.bgColour,
             "flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md"
           )}
         >
@@ -23,8 +19,8 @@ const AccountCard = (account, accountBalance) => {
             <a className="text-gray-900 font-medium hover:text-gray-600">
               {account.name}
             </a>
-            <p className="text-gray-500">
-              <AccountDate dateString={account.createdAt} />
+            <p className="text-gray-500 font-bold text-xl">
+              £{account.balance}
             </p>
           </div>
         </div>
@@ -33,7 +29,7 @@ const AccountCard = (account, accountBalance) => {
   );
 };
 
-export const AccountCards = (accountDetails, accountBalance) => {
+export const AccountCards = ({ accountList }) => {
   return (
     <>
       {" "}
@@ -45,11 +41,9 @@ export const AccountCards = (accountDetails, accountBalance) => {
         role="list"
         className="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {/*{mainAccounts?.flatMap((mainAccount) =>*/}
-        {/*  mainAccount.accounts.map((account) => (*/}
-        {/*    <AccountCard account={account} accountBalance={accountBalance} />*/}
-        {/*  ))*/}
-        {/*)}*/}
+        {accountList.map((account) => (
+          <AccountCard key={account.uid} account={account} />
+        ))}
       </ul>
     </>
   );

@@ -1,7 +1,7 @@
 import classNames from "../utils/ClassNames";
 
-export const Pill = ({ pillText, pillColour }) => {
-  const pillClassName = "bg-" + pillColour + "-100 text-" + pillColour + "-800";
+export const Badge = ({ text, textColour, bgColour }) => {
+  const pillClassName = `${textColour} ${bgColour}`;
   return (
     <div
       className={classNames(
@@ -9,7 +9,7 @@ export const Pill = ({ pillText, pillColour }) => {
         "inline-flex items-baseline px-2.5 py-0.5 rounded-full text-xs font-normal md:mt-2 lg:mt-0"
       )}
     >
-      {pillText}
+      {text}
     </div>
   );
 };

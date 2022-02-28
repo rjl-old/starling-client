@@ -1,7 +1,15 @@
 import { formatDistance } from "date-fns";
 import React from "react";
 import { useGetAccountsAccountsGet } from "../api/service/accounts";
-import { Pill } from "./Pill";
+import { Badge } from "./Badge";
+
+function accountForAccountUID(accounts, accountUid) {
+  for (const account of accounts) {
+    if (account.uid === accountUid) {
+      return account;
+    }
+  }
+}
 
 const TableHeader = ({ fields }) => {
   return (
@@ -23,12 +31,12 @@ const TableHeader = ({ fields }) => {
   );
 };
 
-const TableBody = ({ transactions, accountDictionary }) => {
+const TableBody = ({ transactions, accountList }) => {
   const rows = transactions?.map((transaction, transactionIdx) => {
     const date = formatDistance(new Date(transaction.time), new Date(), {
       addSuffix: true,
     });
-    const accountDetails = accountDictionary[transaction.account_uid];
+    const account = accountForAccountUID(accountList, transaction.account_uid);
     return (
       <tr
         key={transactionIdx}
@@ -38,9 +46,10 @@ const TableBody = ({ transactions, accountDictionary }) => {
           {date}
         </td>
         <td className="px-6 py-1 whitespace-nowrap">
-          <Pill
-            pillText={accountDetails.name}
-            pillColour={accountDetails.colours.pillColour}
+          <Badge
+            text={account.name}
+            textColour={account.colours.badgeTextColour}
+            bgColour={account.colours.badgeBgColour}
           />
         </td>
         <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -71,11 +80,7 @@ const TableBody = ({ transactions, accountDictionary }) => {
 
 // props is an object that contains the transactions array
 // so we can destructure it and assign the transactions variable
-export const TransactionTable = ({
-  transactions,
-  refetch,
-  accountDictionary,
-}) => {
+export const TransactionTable = ({ transactions, refetch, accountList }) => {
   const response = useGetAccountsAccountsGet();
   return (
     <>
@@ -92,10 +97,7 @@ export const TransactionTable = ({
               { name: "Outflow", align: "right" },
             ]}
           />
-          <TableBody
-            transactions={transactions}
-            accountDictionary={accountDictionary}
-          />
+          <TableBody transactions={transactions} accountList={accountList} />
         </table>
       </div>
       {refetch !== undefined ? (

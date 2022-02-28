@@ -1,14 +1,13 @@
-import { TransactionTable } from "../components/TransactionTable";
 import { useGetTransactionsTransactionsGet } from "../api/service/transactions";
-import { Tabs } from "../components/Tabs";
 import { Layout } from "../components/Layout";
 import { format, subDays } from "date-fns";
-import MakeAccountDetailDictionary from "../utils/MakeAccountDetailDictionary";
+import MakeAccountList from "../utils/MakeAccountList";
 import { AccountCards } from "../components/AccountCards";
+import { Tabs } from "../components/Tabs";
+import { TransactionTable } from "../components/TransactionTable";
 
-export default function Home() {
-  const accountDetails = MakeAccountDetailDictionary();
-
+export default function Home({}) {
+  const accountList = MakeAccountList();
   const end_date = new Date();
   const start_date = subDays(end_date, 28);
   const start_date_string = format(start_date, "yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -30,7 +29,7 @@ export default function Home() {
       <h1 className={" text-2xl font-semibold pb-4"}>Home</h1>
 
       {/* Content */}
-      <AccountCards accountDetails={accountDetails} balance={0.0} />
+      <AccountCards accountList={accountList} />
       <div className={"pb-6"}>
         <Tabs />
       </div>
@@ -38,7 +37,7 @@ export default function Home() {
         <TransactionTable
           transactions={transactions.data}
           refetch={transactions.refetch}
-          accountDictionary={accountDetails}
+          accountList={accountList}
         />
       </div>
     </>
