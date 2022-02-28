@@ -30,7 +30,7 @@ export default function Home({}) {
 
       {/* Content */}
       <AccountCards accountList={accountList} />
-      <div className={"pb-6"}>
+      <div className={"pb-8"}>
         <Tabs />
       </div>
       <div>
