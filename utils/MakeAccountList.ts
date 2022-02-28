@@ -67,28 +67,28 @@ export const useAccountLists = (): { accounts?: AccountListItem[] } => {
   return { accounts };
 };
 
-export default function MakeAccountList() {
-  const mainAccountQuery = useGetAccountsAccountsGet();
-  const mainAccounts = mainAccountQuery.data?.main_accounts;
+// export default function MakeAccountList() {
+//   const mainAccountQuery = useGetAccountsAccountsGet();
+//   const mainAccounts = mainAccountQuery.data?.main_accounts;
 
-  const balancesQuery = useGetBalancesBalancesGet();
-  const balances = balancesQuery.data;
+//   const balancesQuery = useGetBalancesBalancesGet();
+//   const balances = balancesQuery.data;
 
-  let accountList = [];
-  let idx = 0;
-  if (mainAccounts && balances) {
-    mainAccounts.forEach((mainAccount) => {
-      mainAccount.accounts.forEach((account) => {
-        let result = {};
-        result.uid = account.accountUid;
-        result.type = mainAccount.type_name;
-        result.name = account.name;
-        result.balance = balanceForAccountUid(balances, account.accountUid);
-        result.colours = accountColours[idx++];
-        accountList.push(result);
-      });
-    });
-  }
-  console.log(accountList);
-  return accountList;
-}
+//   let accountList = [];
+//   let idx = 0;
+//   if (mainAccounts && balances) {
+//     mainAccounts.forEach((mainAccount) => {
+//       mainAccount.accounts.forEach((account) => {
+//         let result = {};
+//         result.uid = account.accountUid;
+//         result.type = mainAccount.type_name;
+//         result.name = account.name;
+//         result.balance = balanceForAccountUid(balances, account.accountUid);
+//         result.colours = accountColours[idx++];
+//         accountList.push(result);
+//       });
+//     });
+//   }
+//   console.log(accountList);
+//   return accountList;
+// }
