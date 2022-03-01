@@ -1,6 +1,6 @@
-import { useGetTransactionsTransactionsGet } from "../api/service/transactions";
+import { useGetTransactions } from "../api/service/transactions";
 import { Layout } from "../components/Layout";
-import { format, subWeeks, endOfToday } from "date-fns";
+import { endOfToday, format, subWeeks } from "date-fns";
 import { useAccountLists } from "../utils/MakeAccountList";
 import { AccountCards } from "../components/AccountCards";
 import { Tabs } from "../components/Tabs";
@@ -13,7 +13,7 @@ export default function Home({}) {
   const start_date_string = format(start_date, "yyyy-MM-dd'T'HH:mm:ss'Z'");
   const end_date_string = format(end_date, "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-  const transactions = useGetTransactionsTransactionsGet(
+  const transactions = useGetTransactions(
     {
       start_date: start_date_string,
       end_date: end_date_string,

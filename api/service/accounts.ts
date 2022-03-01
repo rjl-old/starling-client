@@ -24,39 +24,38 @@ type AsyncReturnType<T extends (...args: any) => Promise<any>> = T extends (
 /**
  * @summary Get Accounts
  */
-export const useGetAccountsAccountsGetHook = () => {
-  const getAccountsAccountsGet = useAxios<StarlingConfig>();
+export const useGetAccountsHook = () => {
+  const getAccounts = useAxios<StarlingConfig>();
 
   return () => {
-    return getAccountsAccountsGet({ url: `/accounts`, method: "get" });
+    return getAccounts({ url: `/accounts`, method: "get" });
   };
 };
 
-export const getGetAccountsAccountsGetQueryKey = () => [`/accounts`];
+export const getGetAccountsQueryKey = () => [`/accounts`];
 
-export const useGetAccountsAccountsGet = <
-  TData = AsyncReturnType<ReturnType<typeof useGetAccountsAccountsGetHook>>,
+export const useGetAccounts = <
+  TData = AsyncReturnType<ReturnType<typeof useGetAccountsHook>>,
   TError = unknown
 >(options?: {
   query?: UseQueryOptions<
-    AsyncReturnType<ReturnType<typeof useGetAccountsAccountsGetHook>>,
+    AsyncReturnType<ReturnType<typeof useGetAccountsHook>>,
     TError,
     TData
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const { query: queryOptions } = options || {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetAccountsAccountsGetQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetAccountsQueryKey();
 
-  const getAccountsAccountsGet = useGetAccountsAccountsGetHook();
+  const getAccounts = useGetAccountsHook();
 
   const queryFn: QueryFunction<
-    AsyncReturnType<ReturnType<typeof useGetAccountsAccountsGetHook>>
-  > = () => getAccountsAccountsGet();
+    AsyncReturnType<ReturnType<typeof useGetAccountsHook>>
+  > = () => getAccounts();
 
   const query = useQuery<
-    AsyncReturnType<ReturnType<typeof useGetAccountsAccountsGetHook>>,
+    AsyncReturnType<ReturnType<typeof useGetAccountsHook>>,
     TError,
     TData
   >(queryKey, queryFn, queryOptions);
@@ -70,41 +69,31 @@ export const useGetAccountsAccountsGet = <
 /**
  * @summary Get Account Balance
  */
-export const useGetAccountBalanceAccountTypeNameAccountNameBalanceGetHook =
-  () => {
-    const getAccountBalanceAccountTypeNameAccountNameBalanceGet =
-      useAxios<number>();
+export const useGetAccountBalanceHook = () => {
+  const getAccountBalance = useAxios<number>();
 
-    return (typeName: string, accountName: string) => {
-      return getAccountBalanceAccountTypeNameAccountNameBalanceGet({
-        url: `/account/${typeName}/${accountName}/balance`,
-        method: "get",
-      });
-    };
+  return (typeName: string, accountName: string) => {
+    return getAccountBalance({
+      url: `/account/${typeName}/${accountName}/balance`,
+      method: "get",
+    });
   };
+};
 
-export const getGetAccountBalanceAccountTypeNameAccountNameBalanceGetQueryKey =
-  (typeName: string, accountName: string) => [
-    `/account/${typeName}/${accountName}/balance`,
-  ];
+export const getGetAccountBalanceQueryKey = (
+  typeName: string,
+  accountName: string
+) => [`/account/${typeName}/${accountName}/balance`];
 
-export const useGetAccountBalanceAccountTypeNameAccountNameBalanceGet = <
-  TData = AsyncReturnType<
-    ReturnType<
-      typeof useGetAccountBalanceAccountTypeNameAccountNameBalanceGetHook
-    >
-  >,
+export const useGetAccountBalance = <
+  TData = AsyncReturnType<ReturnType<typeof useGetAccountBalanceHook>>,
   TError = HTTPValidationError
 >(
   typeName: string,
   accountName: string,
   options?: {
     query?: UseQueryOptions<
-      AsyncReturnType<
-        ReturnType<
-          typeof useGetAccountBalanceAccountTypeNameAccountNameBalanceGetHook
-        >
-      >,
+      AsyncReturnType<ReturnType<typeof useGetAccountBalanceHook>>,
       TError,
       TData
     >;
@@ -114,32 +103,16 @@ export const useGetAccountBalanceAccountTypeNameAccountNameBalanceGet = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getGetAccountBalanceAccountTypeNameAccountNameBalanceGetQueryKey(
-      typeName,
-      accountName
-    );
+    getGetAccountBalanceQueryKey(typeName, accountName);
 
-  const getAccountBalanceAccountTypeNameAccountNameBalanceGet =
-    useGetAccountBalanceAccountTypeNameAccountNameBalanceGetHook();
+  const getAccountBalance = useGetAccountBalanceHook();
 
   const queryFn: QueryFunction<
-    AsyncReturnType<
-      ReturnType<
-        typeof useGetAccountBalanceAccountTypeNameAccountNameBalanceGetHook
-      >
-    >
-  > = () =>
-    getAccountBalanceAccountTypeNameAccountNameBalanceGet(
-      typeName,
-      accountName
-    );
+    AsyncReturnType<ReturnType<typeof useGetAccountBalanceHook>>
+  > = () => getAccountBalance(typeName, accountName);
 
   const query = useQuery<
-    AsyncReturnType<
-      ReturnType<
-        typeof useGetAccountBalanceAccountTypeNameAccountNameBalanceGetHook
-      >
-    >,
+    AsyncReturnType<ReturnType<typeof useGetAccountBalanceHook>>,
     TError,
     TData
   >(queryKey, queryFn, {

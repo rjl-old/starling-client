@@ -1,5 +1,5 @@
-import { useGetAccountsAccountsGet } from "../api/service/accounts";
-import { useGetBalancesBalancesGet } from "../api/service/balances";
+import { useGetAccounts } from "../api/service/accounts";
+import { useGetBalances } from "../api/service/balances";
 import { AccountBalance } from "../api/service/models";
 
 const balanceForAccountUid = (
@@ -47,15 +47,17 @@ export type AccountListItem = {
  * A custom react hook to get the account list
  */
 export const useAccountLists = (): { accounts?: AccountListItem[] } => {
-  const { data: mainAccounts } = useGetAccountsAccountsGet({
+  const { data: mainAccounts } = useGetAccounts({
     query: { select: (d) => d.main_accounts },
   });
 
-  const { data: balances } = useGetBalancesBalancesGet();
+  const { data: balances } = useGetBalances();
 
   const accountPairs = mainAccounts?.flatMap((mainAccount) =>
     mainAccount.accounts.map((account) => ({ mainAccount, account }))
   );
+
+  console.log(accountPairs);
 
   const accounts = accountPairs?.map(({ mainAccount, account }, index) => ({
     uid: account.accountUid,

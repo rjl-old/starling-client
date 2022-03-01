@@ -24,39 +24,38 @@ type AsyncReturnType<T extends (...args: any) => Promise<any>> = T extends (
 /**
  * @summary Get Balances
  */
-export const useGetBalancesBalancesGetHook = () => {
-  const getBalancesBalancesGet = useAxios<AccountBalance[]>();
+export const useGetBalancesHook = () => {
+  const getBalances = useAxios<AccountBalance[]>();
 
   return () => {
-    return getBalancesBalancesGet({ url: `/balances`, method: "get" });
+    return getBalances({ url: `/balances`, method: "get" });
   };
 };
 
-export const getGetBalancesBalancesGetQueryKey = () => [`/balances`];
+export const getGetBalancesQueryKey = () => [`/balances`];
 
-export const useGetBalancesBalancesGet = <
-  TData = AsyncReturnType<ReturnType<typeof useGetBalancesBalancesGetHook>>,
+export const useGetBalances = <
+  TData = AsyncReturnType<ReturnType<typeof useGetBalancesHook>>,
   TError = unknown
 >(options?: {
   query?: UseQueryOptions<
-    AsyncReturnType<ReturnType<typeof useGetBalancesBalancesGetHook>>,
+    AsyncReturnType<ReturnType<typeof useGetBalancesHook>>,
     TError,
     TData
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const { query: queryOptions } = options || {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getGetBalancesBalancesGetQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetBalancesQueryKey();
 
-  const getBalancesBalancesGet = useGetBalancesBalancesGetHook();
+  const getBalances = useGetBalancesHook();
 
   const queryFn: QueryFunction<
-    AsyncReturnType<ReturnType<typeof useGetBalancesBalancesGetHook>>
-  > = () => getBalancesBalancesGet();
+    AsyncReturnType<ReturnType<typeof useGetBalancesHook>>
+  > = () => getBalances();
 
   const query = useQuery<
-    AsyncReturnType<ReturnType<typeof useGetBalancesBalancesGetHook>>,
+    AsyncReturnType<ReturnType<typeof useGetBalancesHook>>,
     TError,
     TData
   >(queryKey, queryFn, queryOptions);
