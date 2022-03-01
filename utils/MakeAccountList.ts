@@ -5,7 +5,8 @@ import { AccountBalance } from "../api/service/models";
 const balanceForAccountUid = (
   balances: AccountBalance[] | undefined,
   accountUid: string
-): number | undefined => balances?.find((b) => b.account_uuid == accountUid)?.balance;
+): number | undefined =>
+  balances?.find((b) => b.account_uuid == accountUid)?.balance;
 
 const accountColours = [
   {
@@ -14,19 +15,19 @@ const accountColours = [
     badgeBgColour: "bg-card-1-100",
   },
   {
-    bgColour: "bg-orange-500",
-    badgeTextColour: "text-orange-800",
-    badgeBgColour: "bg-orange-100",
+    bgColour: "bg-card-2-500",
+    badgeTextColour: "text-card-2-800",
+    badgeBgColour: "bg-card-2-100",
   },
   {
-    bgColour: "bg-blue-500",
-    badgeTextColour: "text-blue-800",
-    badgeBgColour: "bg-blue-100",
+    bgColour: "bg-card-3-500",
+    badgeTextColour: "text-card-3-800",
+    badgeBgColour: "bg-card-3-100",
   },
   {
-    bgColour: "bg-blue-500",
-    badgeTextColour: "text-blue-800",
-    badgeBgColour: "bg-blue-100",
+    bgColour: "bg-card-4-500",
+    badgeTextColour: "text-card-4-800",
+    badgeBgColour: "bg-card-4-100",
   },
 ];
 

@@ -9,7 +9,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "card-1": colors.green,
+        "card-1": colors.fuchsia,
+        "card-2": colors.sky,
+        "card-3": colors.indigo,
+        "card-4": colors.red,
       },
     },
   },
