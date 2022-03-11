@@ -5,7 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface AccountBalance {
-  account_uuid: string;
-  balance: number;
-}
+export type GetAccountsParams = { force_refresh?: boolean };

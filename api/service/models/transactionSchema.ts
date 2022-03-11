@@ -6,15 +6,13 @@
  */
 
 /**
- * Represents a transaction.
+ * Defines the server transaction response model.
  */
-export interface Transaction {
+export interface TransactionSchema {
   uuid: string;
+  account_uuid: string;
   time: string;
   counterparty_name: string;
   amount: number;
   reference?: string;
-  status: string;
-  category_uid?: string;
-  account_uid?: string;
 }

@@ -5,4 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type GetTransactionsParams = { start_date?: string; end_date?: string };
+export type GetTransactionsBetweenParams = {
+  start_date?: string;
+  end_date?: string;
+};

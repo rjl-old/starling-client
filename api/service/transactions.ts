@@ -12,9 +12,9 @@ import {
   QueryKey,
 } from "react-query";
 import type {
-  Transaction,
+  TransactionSchema,
   HTTPValidationError,
-  GetTransactionsParams,
+  GetTransactionsBetweenParams,
 } from "./models";
 import { useAxios } from "../useAxios";
 
@@ -26,90 +26,35 @@ type AsyncReturnType<T extends (...args: any) => Promise<any>> = T extends (
   : any;
 
 /**
- * Get transactions from all available accounts, sorted by transaction date.
-    
- * @summary Get Transactions
+ * Get transactions for the specified account and time interval.
+ * @summary Get Transactions Between
  */
-export const useGetTransactionsHook = () => {
-  const getTransactions = useAxios<Transaction[]>();
+export const useGetTransactionsBetweenHook = () => {
+  const getTransactionsBetween = useAxios<TransactionSchema[]>();
 
-  return (params?: GetTransactionsParams) => {
-    return getTransactions({ url: `/transactions`, method: "get", params });
-  };
-};
-
-export const getGetTransactionsQueryKey = (params?: GetTransactionsParams) => [
-  `/transactions`,
-  ...(params ? [params] : []),
-];
-
-export const useGetTransactions = <
-  TData = AsyncReturnType<ReturnType<typeof useGetTransactionsHook>>,
-  TError = HTTPValidationError
->(
-  params?: GetTransactionsParams,
-  options?: {
-    query?: UseQueryOptions<
-      AsyncReturnType<ReturnType<typeof useGetTransactionsHook>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options || {};
-
-  const queryKey = queryOptions?.queryKey ?? getGetTransactionsQueryKey(params);
-
-  const getTransactions = useGetTransactionsHook();
-
-  const queryFn: QueryFunction<
-    AsyncReturnType<ReturnType<typeof useGetTransactionsHook>>
-  > = () => getTransactions(params);
-
-  const query = useQuery<
-    AsyncReturnType<ReturnType<typeof useGetTransactionsHook>>,
-    TError,
-    TData
-  >(queryKey, queryFn, queryOptions);
-
-  return {
-    queryKey,
-    ...query,
-  };
-};
-
-/**
- * @summary Get Settled Transactions For Account
- */
-export const useGetSettledTransactionsForAccountHook = () => {
-  const getSettledTransactionsForAccount = useAxios<Transaction[]>();
-
-  return (typeName: string, accountName: string) => {
-    return getSettledTransactionsForAccount({
-      url: `/account/${typeName}/${accountName}/transactions`,
+  return (accountId: string, params?: GetTransactionsBetweenParams) => {
+    return getTransactionsBetween({
+      url: `/transactions/${accountId}`,
       method: "get",
+      params,
     });
   };
 };
 
-export const getGetSettledTransactionsForAccountQueryKey = (
-  typeName: string,
-  accountName: string
-) => [`/account/${typeName}/${accountName}/transactions`];
+export const getGetTransactionsBetweenQueryKey = (
+  accountId: string,
+  params?: GetTransactionsBetweenParams
+) => [`/transactions/${accountId}`, ...(params ? [params] : [])];
 
-export const useGetSettledTransactionsForAccount = <
-  TData = AsyncReturnType<
-    ReturnType<typeof useGetSettledTransactionsForAccountHook>
-  >,
+export const useGetTransactionsBetween = <
+  TData = AsyncReturnType<ReturnType<typeof useGetTransactionsBetweenHook>>,
   TError = HTTPValidationError
 >(
-  typeName: string,
-  accountName: string,
+  accountId: string,
+  params?: GetTransactionsBetweenParams,
   options?: {
     query?: UseQueryOptions<
-      AsyncReturnType<
-        ReturnType<typeof useGetSettledTransactionsForAccountHook>
-      >,
+      AsyncReturnType<ReturnType<typeof useGetTransactionsBetweenHook>>,
       TError,
       TData
     >;
@@ -119,98 +64,19 @@ export const useGetSettledTransactionsForAccount = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getGetSettledTransactionsForAccountQueryKey(typeName, accountName);
+    getGetTransactionsBetweenQueryKey(accountId, params);
 
-  const getSettledTransactionsForAccount =
-    useGetSettledTransactionsForAccountHook();
-
-  const queryFn: QueryFunction<
-    AsyncReturnType<ReturnType<typeof useGetSettledTransactionsForAccountHook>>
-  > = () => getSettledTransactionsForAccount(typeName, accountName);
-
-  const query = useQuery<
-    AsyncReturnType<ReturnType<typeof useGetSettledTransactionsForAccountHook>>,
-    TError,
-    TData
-  >(queryKey, queryFn, {
-    enabled: !!(typeName && accountName),
-    ...queryOptions,
-  });
-
-  return {
-    queryKey,
-    ...query,
-  };
-};
-
-/**
- * @summary Get Settled Transactions For Account Days
- */
-export const useGetSettledTransactionsForAccountDaysHook = () => {
-  const getSettledTransactionsForAccountDays = useAxios<Transaction[]>();
-
-  return (typeName: string, accountName: string, days: number) => {
-    return getSettledTransactionsForAccountDays({
-      url: `/account/${typeName}/${accountName}/transactions/${days}`,
-      method: "get",
-    });
-  };
-};
-
-export const getGetSettledTransactionsForAccountDaysQueryKey = (
-  typeName: string,
-  accountName: string,
-  days: number
-) => [`/account/${typeName}/${accountName}/transactions/${days}`];
-
-export const useGetSettledTransactionsForAccountDays = <
-  TData = AsyncReturnType<
-    ReturnType<typeof useGetSettledTransactionsForAccountDaysHook>
-  >,
-  TError = HTTPValidationError
->(
-  typeName: string,
-  accountName: string,
-  days: number,
-  options?: {
-    query?: UseQueryOptions<
-      AsyncReturnType<
-        ReturnType<typeof useGetSettledTransactionsForAccountDaysHook>
-      >,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options || {};
-
-  const queryKey =
-    queryOptions?.queryKey ??
-    getGetSettledTransactionsForAccountDaysQueryKey(
-      typeName,
-      accountName,
-      days
-    );
-
-  const getSettledTransactionsForAccountDays =
-    useGetSettledTransactionsForAccountDaysHook();
+  const getTransactionsBetween = useGetTransactionsBetweenHook();
 
   const queryFn: QueryFunction<
-    AsyncReturnType<
-      ReturnType<typeof useGetSettledTransactionsForAccountDaysHook>
-    >
-  > = () => getSettledTransactionsForAccountDays(typeName, accountName, days);
+    AsyncReturnType<ReturnType<typeof useGetTransactionsBetweenHook>>
+  > = () => getTransactionsBetween(accountId, params);
 
   const query = useQuery<
-    AsyncReturnType<
-      ReturnType<typeof useGetSettledTransactionsForAccountDaysHook>
-    >,
+    AsyncReturnType<ReturnType<typeof useGetTransactionsBetweenHook>>,
     TError,
     TData
-  >(queryKey, queryFn, {
-    enabled: !!(typeName && accountName && days),
-    ...queryOptions,
-  });
+  >(queryKey, queryFn, { enabled: !!accountId, ...queryOptions });
 
   return {
     queryKey,

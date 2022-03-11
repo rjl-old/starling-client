@@ -1,13 +1,24 @@
-import { useGetAccounts } from "../api/service/accounts";
-import { useGetBalances } from "../api/service/balances";
-import { AccountBalance } from "../api/service/models";
+/**
+ * MakeAccountList.js
+ *
+ * A utility function to make a list of Account objects with balances and colours
+ */
 
-const balanceForAccountUid = (
-  balances: AccountBalance[] | undefined,
-  accountUid: string
+import { AccountBalanceSchema } from "../api/service/models";
+import { useGetAccountBalances, useGetAccounts } from "../api/service/accounts";
+
+/**
+ * Get the effective balance of an account with the given uid
+ * @param balances
+ * @param accountUid
+ */
+const effectiveBalanceForAccountUuid = (
+  balances: AccountBalanceSchema[] | undefined,
+  accountUuid: string
 ): number | undefined =>
-  balances?.find((b) => b.account_uuid == accountUid)?.balance;
+  balances?.find((b) => b.uuid == accountUuid)?.effective_balance;
 
+// Define a set of TailwindCSS properties to specify account colour formatting
 const accountColours = [
   {
     bgColour: "bg-card-1-500",
@@ -31,10 +42,11 @@ const accountColours = [
   },
 ];
 
+// Define a schema for an Account List item
 export type AccountListItem = {
-  uid: string;
-  type: string;
-  name: string;
+  uuid: string;
+  bank_name: string;
+  account_name: string;
   balance: number;
   colours: {
     bgColour: string;
@@ -44,54 +56,25 @@ export type AccountListItem = {
 };
 
 /**
- * A custom react hook to get the account list
+ * A custom react hook to build a list of accounts and balances.
  */
-export const useAccountLists = (): { accounts?: AccountListItem[] } => {
-  const { data: mainAccounts } = useGetAccounts({
-    query: { select: (d) => d.main_accounts },
-  });
-
-  const { data: balances } = useGetBalances();
-
-  const accountPairs = mainAccounts?.flatMap((mainAccount) =>
-    mainAccount.accounts.map((account) => ({ mainAccount, account }))
+export const useAccountList = () => {
+  const { data: accounts } = useGetAccounts(
+    {},
+    { query: { select: (d) => d } }
   );
-
-  console.log(accountPairs);
-
-  const accounts = accountPairs?.map(({ mainAccount, account }, index) => ({
-    uid: account.accountUid,
-    type: mainAccount.type_name,
-    name: account.name,
-    balance: balanceForAccountUid(balances, account.accountUid),
-    colours: accountColours[index % accountColours.length],
-  }));
-
-  return { accounts };
+  const { data: balances } = useGetAccountBalances({
+    query: { select: (d) => d },
+  });
+  const accountList: AccountListItem[] = accounts?.map((account, idx) => {
+    let colourIdx = idx % accountColours.length;
+    return {
+      uuid: account.uuid,
+      bank_name: account.bank_name,
+      account_name: account.account_name,
+      balance: effectiveBalanceForAccountUuid(balances, account.uuid),
+      colours: accountColours[colourIdx],
+    };
+  });
+  return { accountList };
 };
-
-// export default function MakeAccountList() {
-//   const mainAccountQuery = useGetAccountsAccountsGet();
-//   const mainAccounts = mainAccountQuery.data?.main_accounts;
-
-//   const balancesQuery = useGetBalancesBalancesGet();
-//   const balances = balancesQuery.data;
-
-//   let accountList = [];
-//   let idx = 0;
-//   if (mainAccounts && balances) {
-//     mainAccounts.forEach((mainAccount) => {
-//       mainAccount.accounts.forEach((account) => {
-//         let result = {};
-//         result.uid = account.accountUid;
-//         result.type = mainAccount.type_name;
-//         result.name = account.name;
-//         result.balance = balanceForAccountUid(balances, account.accountUid);
-//         result.colours = accountColours[idx++];
-//         accountList.push(result);
-//       });
-//     });
-//   }
-//   console.log(accountList);
-//   return accountList;
-// }
