@@ -1,6 +1,5 @@
 import { formatDistance } from "date-fns";
 import React, { FC } from "react";
-import { useGetAccountsAccountsGet } from "../api/service/accounts";
 import { Transaction } from "../api/service/models";
 import { AccountListItem } from "../utils/MakeAccountList";
 import { Badge } from "./Badge";
@@ -8,7 +7,7 @@ import { Badge } from "./Badge";
 const accountForAccountUID = (
   accountList: AccountListItem[] | undefined,
   accountUid: string
-): AccountListItem => accountList?.find((a) => a.uid === accountUid);
+): AccountListItem => accountList?.find((a) => a.uuid === accountUid);
 
 const TableHeader = ({ fields }) => {
   return (
@@ -40,13 +39,21 @@ const TableBody: FC<TableBodyProps> = ({ transactions, accountList }) => {
     const date = formatDistance(new Date(transaction.time), new Date(), {
       addSuffix: true,
     });
-    const account = accountForAccountUID(accountList, transaction.account_uid);
+
+    const account = accountForAccountUID(accountList, transaction.account_uuid);
+    console.log(account);
     return (
-      <tr key={transactionIdx} className={transactionIdx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">{date}</td>
+      <tr
+        data-cy="transaction-row"
+        key={transactionIdx}
+        className={transactionIdx % 2 === 0 ? "bg-white" : "bg-gray-50"}
+      >
+        <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+          {date}
+        </td>
         <td className="px-6 py-1 whitespace-nowrap">
           <Badge
-            text={account.name ?? "Unknown"}
+            text={account.account_name ?? "Unknown"}
             textColour={account.colours.badgeTextColour}
             bgColour={account.colours.badgeBgColour}
           />
@@ -105,7 +112,10 @@ export const TransactionTable: FC<TransactionTableProps> = ({
         </table>
       </div>
       {refetch !== undefined ? (
-        <button className="bg-purple-900 text-white p-2 mx-6 my-8 rounded-md" onClick={refetch}>
+        <button
+          className="bg-purple-900 text-white p-2 mx-6 my-8 rounded-md"
+          onClick={refetch}
+        >
           Update
         </button>
       ) : null}

@@ -14,6 +14,7 @@ const AccountCard: FC<{ account: AccountListItem }> = ({ account }) => {
       <li key={account.uuid} className="col-span-1 flex shadow-sm rounded-md">
         {/* colour chip */}
         <div
+          data-cy="account-card"
           className={classNames(
             account.colours.bgColour,
             "flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md"
